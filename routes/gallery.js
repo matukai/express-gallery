@@ -4,9 +4,8 @@ const Gallery = require('../knex/models/Gallery')
 
 
 router.get('/new', (req, res) => {
-  return res.render('galleryNew');
+  return res.render('galleryNew')
 })
-
 
 router.route('/')
 .post((req, res) => {
@@ -18,8 +17,8 @@ router.route('/')
   })
   .save()
   .then(result => {
-    return res.json(result)
-    //return res.render('index', {knex:result})
+    //return res.json(result)
+    return res.redirect('/gallery');
   })
   .catch(err => {
     return res.json({message: err.message});
@@ -36,9 +35,7 @@ router.route('/')
   })
 })
 
-
 router.get('/:id/edit', (req, res) => {
-  console.log(req.params.id)
   return new Gallery()
   .where({id: req.params.id})
   .fetch()
@@ -46,7 +43,6 @@ router.get('/:id/edit', (req, res) => {
     if(!request){
       throw new Error('not found')
     }
-    console.log(request.toJSON())
     return res.render('galleryEdit', request.toJSON())
   })
   .catch(err =>{
@@ -62,7 +58,8 @@ router.get('/:id', (req, res) => {
     if(!request){
       throw new Error('not found');
     }
-    return res.json(request);
+    return res.render('gallery', request.toJSON())
+    //return res.json(request);
   })
   .catch(err => {
     return res.json({message: err.message});
@@ -79,13 +76,13 @@ router.put('/:id' ,(req, res) => {
     if(!request){
       throw new Error('not found');
     }
-    return res.json(request);
+    //return res.json(request);
+    return res.redirect(`/gallery${id}`);
   })
   .catch(err => {
     return res.json({message: err.message})
   })
 })
-
 
 router.delete('/:id', (req, res) => {
   return new Gallery({id: req.params.id})
@@ -94,7 +91,8 @@ router.delete('/:id', (req, res) => {
     if(!request){
       throw new Error('not found')
     }
-    res.json(request)
+    //res.json(request)
+    res.redirect('/gallery');
   })
   .catch(err => {
     return res.json({message: err.message})
