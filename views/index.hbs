@@ -2,11 +2,16 @@
 
 {{#each collection}}
   <div class="gallery">
-    <h1>author: {{this.author}}</h1>
-    <h2>link: {{this.link}}</h2>
+    <div id="picture">
     <img src="{{this.link}}" alt="">
-    <h3>description: {{this.description}}</h3>
-    <h3>ID: {{this.id}}</h3>
+    </div>
+    {{!-- <div id="author">
+    <h1>{{this.author}}</h1>
+    </div> --}}
+    <div id="link">
+    <a href="/gallery/{{id}}">Click for more information</a>
+    </div>
+    {{!-- <div id="id">{{id}}</div> --}}
   </div>
 {{/each}}
 
