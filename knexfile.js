@@ -1,4 +1,5 @@
 // Update with your config settings.
+const path = require('path');
 
 module.exports = {
 
@@ -6,9 +7,9 @@ module.exports = {
     client: 'pg',
     connection: {
       host : '127.0.0.1',
-      user : 'bookshelf_demo_user',
+      user : 'express_gallery_user',
       password : 'password',
-      database : 'bookshelf_demo_dev',
+      database : 'express_gallery',
       charset: 'utf8'
     },
     migrations: {
