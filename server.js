@@ -5,7 +5,10 @@ const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const galleryRoutes = require('./routes/gallery');
+const userRoutes = require('./routes/users');
 const methodOverride = require('method-override');
+
+const {isAuthenticated: auth} = require('./routes/helper');
 
 //AUTHENTICATION MODULES
 const passport = require('passport');
@@ -26,7 +29,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
-// PASSPORT
+//PASSPORT
 app.use(session({
   store: new Redis(),
   secret: 'keyboard cat',
@@ -34,11 +37,8 @@ app.use(session({
   saveUninitialized: false
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 app.use(express.static(path.join(__dirname, '/public')));
 
@@ -49,9 +49,13 @@ app.engine('.hbs', handlebars({
 app.set('view engine', '.hbs');
 
 
-passport.serializeUser((user, done) => {
-  console.log('serializing', user);
+// app.get('/register', (req, res) => {
+//   return res.render('register');
+// })
 
+
+passport.serializeUser((user, done) => {
+  console.log('serializing');
   return done(null, {
     id: user.id,
     username: user.username
@@ -73,7 +77,6 @@ passport.deserializeUser((user,done) => {
 passport.use(new LocalStrategy(function(username, password, done) {
   return new User({ username: username }).fetch()
   .then ( user => {
-    //console.log(user)
     user = user.toJSON();
     //console.log(user)
     if (user === null) {
@@ -83,7 +86,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
       //console.log(password, user.password);
       bcrypt.compare(password, user.password)
       .then(res => {
-        console.log('brcrypt: ' + res)
+        //console.log('brcrypt: ' + res)
         if (res) { return done(null, user); }
         else {
           return done(null, false, {message: 'bad username or password'});
@@ -95,7 +98,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }));
 
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/secret',
+  successRedirect: '/gallery',
   failureRedirect: '/'
 }));
 
@@ -103,6 +106,7 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
 
 app.post('/register', (req, res) => {
   bcrypt.genSalt(saltRounds, function(err, salt) {
@@ -114,40 +118,37 @@ app.post('/register', (req, res) => {
         password: hash
       })
       .save()
-      .then( (user) => {
-        console.log(user);
-        res.redirect('/');
+      .then((user) => {
+        return res.redirect('/gallery');
       })
       .catch((err) => { console.log(err); return res.send('Stupid username'); });
     });
   });
 });
 
-app.get('/', (req,res) => {
-  res.send('register success')
-})
+// app.get('/', (req,res) => {
+//   res.send('register success')
+// })
 
 // URL: localhost:3000/gallery
 app.use('/gallery', galleryRoutes);
+app.use('/user', userRoutes);
 
+// function isAuthenticated (req, res, next) {
+//   if(req.isAuthenticated()) { 
+//     //console.log( req.user)
+//     next();
+//   }
+//   else { res.redirect('/'); }
+// }
 
-
-function isAuthenticated (req, res, next) {
-  if(req.isAuthenticated()) { 
-    console.log( req.user)
-    next();
-  }
-  else { res.redirect('/'); }
-}
-
-app.get('/secret', isAuthenticated, (req, res) => {
+app.get('/secret', auth, (req, res) => {
   console.log('secret: ' + req)
   console.log('req.user: ', req.user);
   console.log('req.user id', req.user.id);
   console.log('req.username', req.user.username);
   res.send('you found the secret!');
 });
-
 
 
 

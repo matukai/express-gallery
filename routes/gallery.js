@@ -1,33 +1,43 @@
 
 const express = require('express');
 const router = express.Router();
-const Gallery = require('../knex/models/Gallery')
+const Gallery = require('../knex/models/Gallery');
+
+const {isAuthenticated: auth} = require('./helper');
 
 
-router.get('/new', (req, res) => {
+
+
+
+router.get('/new', auth, (req, res) => {
   return res.render('galleryNew')
 })
 
 router.route('/')
-.post((req, res) => {
+.post(auth, (req, res) => {
+  console.log(req.user)
   let {author, link, description} = req.body;
+  let user_id = req.user.id;
   return new Gallery({
     author,
     link,
-    description
+    description,
+    user_id
   })
   .save()
   .then(result => {
     //return res.json(result)
+    console.log('POOOOOOOOOOOSSTED')
     return res.redirect('/gallery');
   })
   .catch(err => {
     return res.json({message: err.message});
   })
 })
-.get((req, res) => {
+.get( (req, res) => {
   return Gallery.fetchAll()
   .then(request => {
+    //console.log(request)
     return res.render('index', {collection: request.toJSON()})
     //return res.json(request)
   })
@@ -36,7 +46,7 @@ router.route('/')
   })
 })
 
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', auth, (req, res) => {
   return new Gallery()
   .where({id: req.params.id})
   .fetch()
@@ -51,7 +61,7 @@ router.get('/:id/edit', (req, res) => {
   })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id',(req, res) => {
   return new Gallery()
   .where({id: req.params.id})
   .fetch()
@@ -67,7 +77,7 @@ router.get('/:id', (req, res) => {
   })
 })
 
-router.put('/:id' ,(req, res) => {
+router.put('/:id' , auth, (req, res) => {
   return new Gallery({id: req.params.id})
   .save(req.body, {
     patch:true,
@@ -85,7 +95,7 @@ router.put('/:id' ,(req, res) => {
   })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
   return new Gallery({id: req.params.id})
   .destroy()
   .then(request => {
