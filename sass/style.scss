@@ -1,24 +1,43 @@
 html{
   background-color: white;
 }
-
-#header{
-  text-align: center;
-  font:grey;
+h1 {
+  color: grey
 }
-
+#header{
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+}
 #content{
   text-align: center;
 }
-
 #picture{
   text-align: center;
 }
-
 #author{
   text-align: center;
 }
-
 #link{
   text-align: center;
+}
+.topnav {
+  background-color: #333333;
+  overflow: hidden;
+}
+.topnav a {
+  float:left;
+  color: #f2f2f2;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  text-align: center;
+}
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+.topnav a:hover {
+  background-color: #4CAF50;
+  color: white;
 }

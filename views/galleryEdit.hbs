@@ -9,6 +9,7 @@
 </head>
 
 <body>
+  
   <h1>EDIT GALLERY</h1>
   <form action="/gallery/{{id}}?_method=PUT" method="POST">
     <label for="Put-name">AUTHOR</label>
@@ -20,6 +21,11 @@
     <input type="submit" value="submit">
   </form>
 
+   <div id="delete">
+    <form action="/gallery/{{id}}?_method=DELETE" method="POST" >
+    <button type="submit">DELETE</button>
+    </form>
+    </div>
 
 </body>
 

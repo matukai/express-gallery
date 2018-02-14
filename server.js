@@ -48,11 +48,9 @@ app.engine('.hbs', handlebars({
 }));
 app.set('view engine', '.hbs');
 
-
 // app.get('/register', (req, res) => {
 //   return res.render('register');
 // })
-
 
 passport.serializeUser((user, done) => {
   console.log('serializing');
@@ -99,14 +97,14 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/gallery',
-  failureRedirect: '/'
+  failureRedirect: '/user/login'
 }));
 
 app.get('/logout', (req, res) => {
   req.logout();
-  res.sendStatus(200);
+  //res.sendStatus(200);
+  return res.redirect('/gallery');
 });
-
 
 app.post('/register', (req, res) => {
   bcrypt.genSalt(saltRounds, function(err, salt) {

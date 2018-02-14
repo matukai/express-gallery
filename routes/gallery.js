@@ -5,10 +5,6 @@ const Gallery = require('../knex/models/Gallery');
 
 const {isAuthenticated: auth} = require('./helper');
 
-
-
-
-
 router.get('/new', auth, (req, res) => {
   return res.render('galleryNew')
 })
@@ -78,6 +74,7 @@ router.get('/:id',(req, res) => {
 })
 
 router.put('/:id' , auth, (req, res) => {
+  console.log(req.body.id)
   return new Gallery({id: req.params.id})
   .save(req.body, {
     patch:true,
@@ -88,7 +85,7 @@ router.put('/:id' , auth, (req, res) => {
       throw new Error('not found');
     }
     //return res.json(request);
-    return res.redirect(`/gallery${id}`);
+    return res.redirect(`/gallery`);
   })
   .catch(err => {
     return res.json({message: err.message})
