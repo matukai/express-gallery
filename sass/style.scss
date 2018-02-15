@@ -11,6 +11,20 @@ body {
   margin: 0px;
   background-image: url('/assets/cork-wallet.png');
 }
+input[type=text]{
+  color:black;
+  font-family: 'Open Sans', sans-serif;
+}
+#form{
+  background-color: black;
+}
+form.input{
+  background-color:black;
+}
+input.text{
+  background-color:black;
+
+}
 html{
   background-color: white;
 }
