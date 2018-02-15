@@ -25,6 +25,7 @@ h1 {
   color: grey; }
 
 #footer {
+  font-family: 'Open Sans', sans-serif;
   text-align: center; }
 
 #header {
@@ -78,6 +79,7 @@ h1 {
 @media (min-width: 1025px) {
   .gallery {
     display: flex;
+    width: 960px;
     flex-direction: column; }
   html, body {
     margin: 0;
@@ -85,9 +87,7 @@ h1 {
   #link {
     display: block; }
   #image {
-    text-align: center;
-    padding-left: 0px;
-    padding-right: 0px; }
+    text-align: center; }
   #description {
     text-align: center;
     padding-left: 0px;
@@ -99,4 +99,16 @@ h1 {
     padding-left: 0px;
     padding-right: 0px; }
   #header {
-    font-size: 60px; } }
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    margin-left: 200px;
+    font-size: 35px; }
+  p {
+    font-size: 12px;
+    width: 400px;
+    margin-right: 200px;
+    color: #bbbbbb; }
+  #edit {
+    text-align: center; } }

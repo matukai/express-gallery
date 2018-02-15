@@ -25,6 +25,7 @@ h1 {
   color: grey
 }
 #footer{
+  font-family: 'Open Sans', sans-serif;
   text-align: center;
 }
 #header{
@@ -75,10 +76,14 @@ h1 {
   background-color: #4CAF50;
   color: white;
 }
+#headerPara{
+  visibility: hidden;
+}
 
 @media(min-width: 1025px){
 .gallery{
   display: flex;
+  width: 960px;
   flex-direction: column;
 }
 html, body{
@@ -90,25 +95,41 @@ html, body{
 }
 #image{
   text-align: center;
-  padding-left: 0px;
-  padding-right: 0px;
+  // padding-left: 0px;
+  // padding-right: 0px;
 }
 #description{
   text-align: center;
-  padding-left: 0px;
+  padding-left: 150px;
   padding-right: 0px;
 }
 #picture{
   text-align: center;
 }
 #link{
-  text-align: center;
-  padding-left: 0px;
+  text-align: left;
+  padding-left: 100px;
   padding-right: 0px;
 }
 #header{
-  font-size: 60px;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-left: 200px;
+  font-size: 35px;
+}
+// #header_info{
+//   margin-left: 500px;
+//   margin-right: 200px
+// }
+p{
+  font-size: 12px;
+  width: 400px;
+  margin-right: 200px;
+  color: rgb(187, 187, 187);
+}
+#edit{
+  text-align: center;
 }
 
-
-}
