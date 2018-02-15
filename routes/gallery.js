@@ -1,4 +1,6 @@
 
+
+
 const express = require('express');
 const router = express.Router();
 const Gallery = require('../knex/models/Gallery');
@@ -6,12 +8,11 @@ const Gallery = require('../knex/models/Gallery');
 const {isAuthenticated: auth} = require('./helper');
 
 router.get('/new', auth, (req, res) => {
-  return res.render('galleryNew')
+  return res.render('galleryNew');
 })
 
 router.route('/')
 .post(auth, (req, res) => {
-  console.log(req.user)
   let {author, link, description} = req.body;
   let user_id = req.user.id;
   return new Gallery({
@@ -23,18 +24,26 @@ router.route('/')
   .save()
   .then(result => {
     //return res.json(result)
-    console.log('POOOOOOOOOOOSSTED')
+    //console.log('POOOOOOOOOOOSSTED')
     return res.redirect('/gallery');
   })
   .catch(err => {
-    return res.json({message: err.message});
+    console.log('caaaatch')
+    return res.redirect('/gallery')
+    //return res.json({message: err.message});
   })
 })
 .get( (req, res) => {
   return Gallery.fetchAll()
   .then(request => {
-    //console.log(request)
-    return res.render('index', {collection: request.toJSON()})
+    //let locals = request.toJSON();
+    let locals = {
+      collection: request.toJSON()
+    }
+    locals.user = req.user;
+    
+    return res.render('index', locals);
+    //return res.render('index', {collection: request.toJSON()})
     //return res.json(request)
   })
   .catch(err => {
@@ -65,7 +74,11 @@ router.get('/:id',(req, res) => {
     if(!request){
       throw new Error('not found');
     }
-    return res.render('gallery', request.toJSON())
+    let locals = request.toJSON();
+    console.log('reqUUUUSER' + req.user)
+    locals.user = req.user
+    console.log('loooooocals' + locals)
+    return res.render('gallery', locals)
     //return res.json(request);
   })
   .catch(err => {

@@ -11,9 +11,12 @@
 </head>
 
 <body>
+
   <div class="topnav">
     <a class='active' href='/gallery'>HOME</a>
+    {{#if user}}
     <a class='active' href='/gallery/new'>UPLOAD</a>
+    {{/if}}
     <a class='active' href='/user/new'>REGISTER</a>
     <a class='active' href='/user/login'>LOGIN</a>
     <a class='active' href='/logout'>LOGOUT</a>
@@ -23,9 +26,13 @@
   <h1>_ARCHITEKT</h1>
   </div>
 
-  
   {{{body}}}
+
 </body>
+
+<footer id='footer'>
+  <p>Copyright www.fantasticnorway.no</p>
+</footer>
 
 </html>
 
